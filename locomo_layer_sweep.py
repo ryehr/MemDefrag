@@ -100,7 +100,7 @@ def all_layer_densities_reduced(model_obj, tokenizer, knowledge_latent, question
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct")
+    parser.add_argument("--model_name", type=str, required=True)
     parser.add_argument("--data_path", type=str, default="./data_new/locomo/locomo10.json")
     parser.add_argument("--category", type=str, default="4")
     parser.add_argument("--max_conv_tokens", type=int, default=16000)

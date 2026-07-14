@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from datetime import datetime
 dataset = "SQuAD"
-title = f"Llama-3.1-8B-Instruct, 500*(1+20), {dataset}"
+title = f"8B backbone, 500*(1+20), {dataset}"
 
 x_list = []
 y_list = []

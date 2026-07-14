@@ -18,9 +18,9 @@ run_cfg () {  # gpu model dataset layer query_mode tag
   echo "[$(date '+%F %T')] finished: $6 (exit $?)"
 }
 
-echo "[$(date '+%F %T')] Round 1: Llama + Qwen"
-run_cfg 0 meta-llama/Llama-3.1-8B-Instruct  nqa   13 last llama_nqa   &
-run_cfg 1 meta-llama/Llama-3.1-8B-Instruct  squad 13 mean llama_squad &
+echo "[$(date '+%F %T')] Round 1: base-8B + Qwen"
+run_cfg 0 "${BASE_8B_MODEL:?set BASE_8B_MODEL to your 8B backbone id}"  nqa   13 last base8b_nqa   &
+run_cfg 1 "${BASE_8B_MODEL:?set BASE_8B_MODEL to your 8B backbone id}"  squad 13 mean base8b_squad &
 run_cfg 2 Qwen/Qwen2.5-7B-Instruct          nqa   14 mean qwen_nqa    &
 run_cfg 3 Qwen/Qwen2.5-7B-Instruct          squad 14 mean qwen_squad  &
 wait

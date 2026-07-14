@@ -3,7 +3,7 @@ peak_memory.py
 ==============
 Peak GPU memory 对比（论文 rebuttal Memory consumption 用）。
 
-设置：Llama-3.1-8B-Instruct（单模型，SDPA），NaturalQA，n=50 片段，
+设置：8B 骨干模型（单模型，SDPA），NaturalQA，n=50 片段，
 perplexity 比例遗忘使 N_n = N_max = 12,800。
 
 两条路径（每个 sample 分别 reset 峰值统计后测量）：
@@ -81,7 +81,7 @@ def defrag_from_densities(knowledge_latent, indices, densities, keep_num):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct")
+    parser.add_argument("--model_name", type=str, required=True)
     parser.add_argument("--reorder_base_layer", type=int, default=13)
     parser.add_argument("--query_mode", type=str, default="last", choices=["last", "mean"])
     parser.add_argument("--keep_num", type=int, default=2)
@@ -166,7 +166,7 @@ def main():
         return f"{np.mean(v):.2f} ± {np.std(v):.2f}"
 
     latent_gb = peaks["baseline"][0] - weights_gb
-    print(f"\n===== Peak GPU memory (GB, allocated), Llama-3.1-8B, NaturalQA, "
+    print(f"\n===== Peak GPU memory (GB, allocated), 8B backbone, NaturalQA, "
           f"n={args.n_fragments}, N=12800, {args.n_samples} samples =====")
     print(f"| Path | Peak (GB) |\n|---|---|")
     print(f"| resident baseline (weights {weights_gb:.2f} + latent memory {latent_gb:.2f}) "

@@ -236,7 +236,7 @@ def run_qa_benchmark(filtered_test_data, filtered_unrelated_data, model_gen):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Single-model, batch=1, no-vLLM KV test")
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct",
+    parser.add_argument("--model_name", type=str, required=True,
                         help="HF model name or local path")
     parser.add_argument("--device", type=str,
                         default=("cuda" if torch.cuda.is_available() else "cpu"))

@@ -235,7 +235,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Single-model, batch=1, no-vLLM KV test")
     parser.add_argument("--model_name", type=str, default="google/gemma-2-9b-it",
                         help="HF model name or local path") 
-    # meta-llama/Llama-3.1-8B-Instruct, Qwen/Qwen2.5-7B-Instruct, mistralai/Mistral-7B-Instruct-v0.3, google/gemma-2-9b-it
+    # e.g. Qwen/Qwen2.5-7B-Instruct, mistralai/Mistral-7B-Instruct-v0.3, google/gemma-2-9b-it
     parser.add_argument("--device", type=str,
                         default=("cuda" if torch.cuda.is_available() else "cpu"))
     parser.add_argument("--dataset", type=str, default="nqa",

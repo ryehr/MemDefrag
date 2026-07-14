@@ -396,9 +396,9 @@ def run_qa_benchmark(filtered_test_data, filtered_unrelated_data, model):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Text-level QA Benchmark: attention density & rank")
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct",
+    parser.add_argument("--model_name", type=str, required=True,
                         help="HF model name or local path")
-    # meta-llama/Llama-3.1-8B-Instruct, Qwen/Qwen2.5-7B-Instruct, mistralai/Mistral-7B-Instruct-v0.3, google/gemma-2-9b-it
+    # e.g. Qwen/Qwen2.5-7B-Instruct, mistralai/Mistral-7B-Instruct-v0.3, google/gemma-2-9b-it
     parser.add_argument("--device", type=str,
                         default=("cuda" if torch.cuda.is_available() else "cpu"))
     parser.add_argument("--dataset", type=str, default="nqa",

@@ -353,9 +353,9 @@ def run_qa_benchmark(filtered_test_data, filtered_unrelated_data, model_reorder,
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Single-model, batch=1, no-vLLM KV test")
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct",
+    parser.add_argument("--model_name", type=str, required=True,
                         help="HF model name or local path") 
-    # meta-llama/Llama-3.1-8B-Instruct, Qwen/Qwen2.5-7B-Instruct, mistralai/Mistral-7B-Instruct-v0.3, google/gemma-2-9b-it
+    # e.g. Qwen/Qwen2.5-7B-Instruct, mistralai/Mistral-7B-Instruct-v0.3, google/gemma-2-9b-it
     parser.add_argument("--device", type=str,
                         default=("cuda" if torch.cuda.is_available() else "cpu"))
     parser.add_argument("--dataset", type=str, default="nqa",
@@ -385,9 +385,10 @@ if __name__ == "__main__":
                         help="自适应 K 的上限 K_max")
     parser.add_argument("--eval_steps", type=str, default="",
                         help="逗号分隔的评测 time step（如 '1,10,20,30,40,50'）；为空则每步评测")
-    parser.add_argument("--tracing", type=str, default="eager", choices=["eager", "sdpa"],
-                        help="sdpa=在 model_gen 上做 SDPA 探针 tracing（不加载 eager 副本，"
-                             "大模型单卡用；不支持 --adaptive_k / --rotate）")
+    parser.add_argument("--tracing", type=str, default="sdpa", choices=["sdpa", "eager"],
+                        help="sdpa（默认，推荐）=单模型 SDPA 探针 tracing：不物化 S×S 注意力、"
+                             "不加载 eager 模型副本，显存开销显著更低；"
+                             "eager=参考实现（--adaptive_k / --rotate_base_layer 需要）")
     parser.add_argument("--log_file", type=str, default="./result_April.log",
                         help="结果日志文件路径")
     parser.add_argument("--shuffle_knowledge", action="store_true",

@@ -3,7 +3,7 @@ latency_breakdown.py
 ====================
 Per-prompt latency 分解（论文 rebuttal Runtime breakdown 用）。
 
-设置：Llama-3.1-8B-Instruct，NaturalQA，n=50 个记忆片段，
+设置：8B 骨干模型，NaturalQA，n=50 个记忆片段，
 perplexity 比例遗忘使 N_n = N_max = 12,800（与 50 步知识保持实验的末态一致）。
 
 测量组件（每组记忆重复 repeats 次，报告 mean±std, ms）：
@@ -35,7 +35,7 @@ from utilities import (
     get_input_device,
     _register_hidden_prefix_hooks,
 )
-from transformers.models.llama.modeling_llama import repeat_kv
+from sdpa_tracing import repeat_kv
 
 
 class _StopProbe(Exception):
@@ -176,7 +176,7 @@ def build_memory(model_gen, tokenizer, target_context, unrelated_texts, max_know
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct")
+    parser.add_argument("--model_name", type=str, required=True)
     parser.add_argument("--reorder_base_layer", type=int, default=13)
     parser.add_argument("--query_mode", type=str, default="last", choices=["last", "mean"])
     parser.add_argument("--keep_num", type=int, default=2)
@@ -305,7 +305,7 @@ def main():
     speedup = ms["gen_full"][0] / ms["gen_topk"][0]
 
     print("\n===== Per-prompt latency breakdown "
-          f"(Llama-3.1-8B, NaturalQA, n={args.n_fragments}, N={int(np.mean(len_full))}, "
+          f"(8B backbone, NaturalQA, n={args.n_fragments}, N={int(np.mean(len_full))}, "
           f"Top-{args.keep_num} => {int(np.mean(len_topk))} tokens, "
           f"{args.max_new_tokens} generated tokens) =====")
     rows = [

@@ -41,7 +41,7 @@ def main():
 
     configs = [c for c in ORDER if c in times]
     print("### Per-query inference latency (s) vs injected fragments "
-          "(Llama-3.1-8B, NQA, 10 groups x 3 repeats, H200)\n")
+          "(8B backbone, NQA, 10 groups x 3 repeats, H200)\n")
     print("| n | ctx tokens | mem tokens | " + " | ".join(LABELS[c] for c in configs) + " |")
     print("|" + "---|" * (3 + len(configs)))
     for n in ns:

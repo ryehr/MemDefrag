@@ -2,7 +2,7 @@
 make_adaptive_table.py
 ======================
 汇总 adaptive-K 实验结果：
-  - static Top-1..4 曲线从 plot_formal/plot_retention_comparison.py (Llama)
+  - static Top-1..4 曲线从 plot_formal/plot_retention_comparison.py (8B backbone)
     与 plot_formal/plot_other_models.py (Qwen/Mistral/Gemma) 中解析（500 组、50 步原始数据）；
   - adaptive-K 结果从 adaptive_logs/adaptive_<tag>.log 中解析
     （eval steps [1,10,20,30,40,50] 对应的 accuracy 列表与 mean-K 统计）。
@@ -18,8 +18,8 @@ EVAL_STEPS = [1, 10, 20, 30, 40, 50]
 
 CONFIGS = [
     # (tag, model display, dataset display, static array name pattern)
-    ("llama_nqa",     "Llama-3.1-8B-Instruct",    "NaturalQA", "top_{k}_nqa"),
-    ("llama_squad",   "Llama-3.1-8B-Instruct",    "SQuAD",     "top_{k}_squad"),
+    ("base8b_nqa",   "8B backbone",              "NaturalQA", "top_{k}_nqa"),
+    ("base8b_squad", "8B backbone",              "SQuAD",     "top_{k}_squad"),
     ("qwen_nqa",      "Qwen2.5-7B-Instruct",      "NaturalQA", "qwen_nqa_top{k}"),
     ("qwen_squad",    "Qwen2.5-7B-Instruct",      "SQuAD",     "qwen_squad_top{k}"),
     ("mistral_nqa",   "Mistral-7B-Instruct-v0.3", "NaturalQA", "mistral_nqa_top{k}"),

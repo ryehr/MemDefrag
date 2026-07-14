@@ -12,7 +12,7 @@ big_model_layer_sweep.py
   - 统计每层每模式下 target 片段的密度排名：mean rank、Top-1..5 准确率。
 
 用法：
-  python big_model_layer_sweep.py --model_name meta-llama/Llama-3.1-70B-Instruct
+  python big_model_layer_sweep.py --model_name Qwen/Qwen2.5-32B-Instruct
 """
 
 import argparse
@@ -24,7 +24,7 @@ import numpy as np
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-from transformers.models.llama.modeling_llama import repeat_kv
+from sdpa_tracing import repeat_kv
 
 from utilities import (
     get_max_memory,
@@ -54,7 +54,7 @@ def all_layer_densities_both_modes(model_obj, tokenizer, knowledge_latent, quest
                      hook 内立即归约、丢弃 S×S 大矩阵；
     tracing="sdpa" ：模型全程 SDPA，不物化任何 S×S 矩阵；在每层 pre-hook 中
                      用该层输入手工计算 prompt 行的注意力（RoPE+GQA+行 softmax，
-                     数学上与 eager 全矩阵后取行一致；适用 Llama 系架构）。
+                     数学上与 eager 全矩阵后取行一致；适用标准 RoPE+GQA decoder 架构）。
     返回 {mode: [num_layers][num_segments] densities}。
     """
     prefix_len = knowledge_latent["attention_mask"].shape[1]
@@ -192,9 +192,9 @@ def main():
     parser.add_argument("--group_num", type=int, default=100)
     parser.add_argument("--unrelated_num", type=int, default=19)
     parser.add_argument("--positions", type=str, default="0,4,9,14,19")
-    parser.add_argument("--tracing", type=str, default="eager", choices=["eager", "sdpa"],
-                        help="eager=HF eager 注意力+hook 归约；sdpa=不物化 S×S，"
-                             "每层手工算 prompt 行注意力（单卡显存不够时用）")
+    parser.add_argument("--tracing", type=str, default="sdpa", choices=["sdpa", "eager"],
+                        help="sdpa（默认，推荐）=不物化 S×S，每层手工算 prompt 行注意力，"
+                             "显存开销小、速度快；eager=HF eager 注意力+hook 归约（参考实现）")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--out_json", type=str, default="")
     args = parser.parse_args()

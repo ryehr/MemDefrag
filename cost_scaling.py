@@ -3,7 +3,7 @@ cost_scaling.py
 ===============
 Per-query 推理延迟 vs 注入上下文规模（rebuttal "How the cost scales"）。
 
-对比（同一硬件、同一模型 Llama-3.1-8B-Instruct、greedy、固定 32 生成 token）：
+对比（同一硬件、同一 8B 骨干模型、greedy、固定 32 生成 token）：
   - full-context：全部 n 个 512-token 片段以原文放入 prompt（512n + |q| 的
     prefill + 解码），每次查询都要重新编码全部上下文；
   - MemDefrag Top-K：latent memory 已构建（形成成本离线摊销），每次查询 =
@@ -60,7 +60,7 @@ def timed(fn):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct")
+    parser.add_argument("--model_name", type=str, required=True)
     parser.add_argument("--dataset", type=str, default="nqa")
     parser.add_argument("--ns", type=str, default="10,20,30,40,50")
     parser.add_argument("--keep_nums", type=str, default="1,2")

@@ -331,7 +331,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Text-level QA Benchmark with attention density investigation"
     )
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct",
+    parser.add_argument("--model_name", type=str, required=True,
                         help="HF model name or local path")
     parser.add_argument("--device", type=str,
                         default=("cuda" if torch.cuda.is_available() else "cpu"))

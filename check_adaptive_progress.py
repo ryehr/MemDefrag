@@ -14,7 +14,7 @@ import os
 import re
 
 EVAL_STEPS = [1, 10, 20, 30, 40, 50]
-TAGS = ["llama_nqa", "llama_squad", "qwen_nqa", "qwen_squad",
+TAGS = ["base8b_nqa", "base8b_squad", "qwen_nqa", "qwen_squad",
         "mistral_nqa", "mistral_squad", "gemma_nqa", "gemma_squad"]
 TOTAL_GROUPS = 100
 

@@ -124,7 +124,7 @@ def build_memory(model_gen, tokenizer, frags, forget_strategy, max_knowledge_tok
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="meta-llama/Llama-3.1-8B-Instruct")
+    parser.add_argument("--model_name", type=str, required=True)
     parser.add_argument("--data_path", type=str, default="./data_new/locomo/locomo10.json")
     parser.add_argument("--category", type=str, default="4",
                         help="LoCoMo QA 类别：4=single-hop（已核实：1=multi-hop, 2=temporal, "
