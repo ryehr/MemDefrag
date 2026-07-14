@@ -1,0 +1,27 @@
+# generated artifacts & experiment history
+*.log
+adaptive_logs/
+plot_figures/
+__pycache__/
+*.pyc
+.vscode/
+
+# paper draft & review materials (double-blind)
+*.pdf
+Rebuttal/
+
+# legacy / scratch / unrelated
+Legacy_investigation/
+Legacy_kv/
+Legacy_pure_latent/
+*.vsix
+yali.py
+test.py
+llmlingua_test.py
+create_datasets.py
+kill_and_round2.sh
+run_bigmodel_sweep.sh
+
+# third-party dataset (see README for download)
+data_new/locomo/
+.claude/
