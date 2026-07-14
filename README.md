@@ -154,5 +154,14 @@ high-quality tracer layer in minutes.
 
 ## Citation
 
-The paper is currently under double-blind review; citation information will be
-added upon publication.
+```bibtex
+@misc{yan2026memdefraglatentmemorydefragmentation,
+      title={MemDefrag: Latent Memory Defragmentation for Large Language Models}, 
+      author={Ruiyi Yan and Zhuoyuan Mao and Yiwen Guo},
+      year={2026},
+      eprint={2607.05969},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2607.05969}, 
+}
+```
